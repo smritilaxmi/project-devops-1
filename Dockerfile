@@ -1,4 +1,4 @@
-# Use the base image
+# Use the base image here
 FROM devopsedu/webapp
 
 # Set the working directory inside the container
