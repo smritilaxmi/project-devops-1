@@ -1,6 +1,6 @@
 pipeline {
     agent any
-
+    
     stages {
         stage('Install and configure puppet agent on the slave node') {
             steps {
@@ -20,7 +20,7 @@ pipeline {
                 git 'https://github.com/smritilaxmi/project-devops-1.git'
                 script {
                     docker.build('my-php-website:latest', '.')
-                    docker.withServer('tcp://test-server:2376', 'test-server') {
+                    docker.withServer('tcp://172.31.10.61:2376', 'test-server') {
                         docker.image('my-php-website:latest').push()
                         docker.image('my-php-website:latest').run('-p 8080:80', '--name my-php-container')
                     }
