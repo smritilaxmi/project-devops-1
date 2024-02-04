@@ -7,7 +7,7 @@ pipeline {
                 puppetAgentInstaller()
             }
         }
-        stage('Push an Ansible configuration on test server to install Docker') {
+        stage('Push an Ansible configuration on the test server to install Docker') {
             steps {
                 ansiblePlaybook(
                     playbook: 'install_docker.yml',
@@ -31,13 +31,9 @@ pipeline {
 
     post {
         failure {
-            stage('If Job 3 fails, delete the running container on Test Server') {
-                steps {
-                    script {
-                        docker.withServer('tcp://172.31.10.61:2376', 'test-server') {
-                            docker.image('my-php-website:latest').remove()
-                        }
-                    }
+            script {
+                docker.withServer('tcp://172.31.10.61:2376', 'test-server') {
+                    docker.image('my-php-website:latest').remove()
                 }
             }
         }
