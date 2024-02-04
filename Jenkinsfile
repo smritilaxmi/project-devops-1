@@ -17,7 +17,7 @@ pipeline {
         }
         stage('Pull the PHP website and Dockerfile from the Git repo and build and deploy your PHP Docker container') {
             steps {
-                git 'https://github.com/smritilaxmi/project-devops-1.git'
+                git branch: 'master', credentialsId: 'your-credentials-id', url: 'https://github.com/smritilaxmi/project-devops-1.git'
                 script {
                     docker.build('my-php-website:latest', '.')
                     docker.withServer('tcp://172.31.10.61:2376', 'test-server') {
@@ -34,7 +34,7 @@ pipeline {
             stage('If Job 3 fails, delete the running container on Test Server') {
                 steps {
                     script {
-                        docker.withServer('tcp://test-server:2376', 'test-server') {
+                        docker.withServer('tcp://172.31.10.61:2376', 'test-server') {
                             docker.image('my-php-website:latest').remove()
                         }
                     }
